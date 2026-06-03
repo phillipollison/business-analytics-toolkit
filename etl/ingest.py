@@ -6,6 +6,8 @@ from file_handler import (
     move_to_processed,
     move_to_rejected
 )
+from database import load_sales_data
+
 
 print("\n==============================")
 print(" BUSINESS ANALYTICS TOOLKIT ")
@@ -17,7 +19,7 @@ csv_files = list(incoming_folder.glob("*.csv"))
 
 if len(csv_files) == 0:
     print("No files found in data/incoming")
-    quit()
+    exit()
 
 all_data = []
 
@@ -29,56 +31,50 @@ for file in csv_files:
 
         df = pd.read_csv(file)
 
-        errors = validate_sales(df)
+        if validate_sales(df):
 
-        if errors:
+            all_data.append(df)
 
-            print(f"\nRejected: {file.name}")
+            # Load into PostgreSQL
+            load_sales_data(df)
 
-            for error in errors:
-                print(f" - {error}")
+            move_to_processed(file)
+
+            print(f"Accepted: {file.name}")
+
+        else:
 
             move_to_rejected(file)
 
-            continue
-
-        df["source_file"] = file.name
-
-        all_data.append(df)
-
-        move_to_processed(file)
-
-        print(f"Accepted: {file.name}")
+            print(f"Rejected: {file.name}")
 
     except Exception as e:
 
-        print(f"Failed: {file.name}")
-        print(e)
-
         move_to_rejected(file)
 
-if len(all_data) == 0:
+        print(f"Error processing {file.name}")
+        print(e)
 
-    print("\nNo valid files loaded.")
+if len(all_data) > 0:
 
-    quit()
+    combined_df = pd.concat(all_data)
 
-master_df = pd.concat(
-    all_data,
-    ignore_index=True
-)
+    print("\n==============================")
+    print(" ETL SUMMARY ")
+    print("==============================")
 
-print("\n==============================")
-print(" FINAL DATASET ")
-print("==============================\n")
+    print(f"Files Processed: {len(all_data)}")
+    print(f"Rows Loaded: {len(combined_df)}")
 
-print(master_df)
+    if "sales_amount" in combined_df.columns:
+        print(f"Revenue: ${combined_df['sales_amount'].sum():,.2f}")
 
-print("\n==============================")
-print(" SUMMARY ")
-print("==============================\n")
+    if "quantity_sold" in combined_df.columns:
+        print(f"Units Sold: {combined_df['quantity_sold'].sum():,.0f}")
 
-print(f"Files Processed: {len(csv_files)}")
-print(f"Rows Loaded: {len(master_df)}")
-print(f"Revenue: ${master_df['sales_amount'].sum():,.2f}")
-print(f"Units Sold: {master_df['quantity_sold'].sum()}")
+    print("\nPipeline Complete\n")
+
+else:
+
+    print("\nNo valid data loaded.\n")
+    
