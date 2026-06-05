@@ -1,0 +1,36 @@
+{
+  "workflow_name": "Clean0ps Local API Automation",
+  "description": "Pull API data, normalize fields, remove duplicates, validate required fields, and save local CSV/Excel outputs.",
+  "dedupe_keys": ["source_name", "record_id"],
+  "required_fields": ["source_name", "record_id", "signal_title"],
+  "sources": [
+    {
+      "name": "demo_posts",
+      "enabled": true,
+      "method": "GET",
+      "url": "https://jsonplaceholder.typicode.com/posts",
+      "headers": {},
+      "params": {},
+      "timeout_seconds": 30,
+      "record_path": "",
+      "field_map": {
+        "id": "record_id",
+        "userId": "user_id",
+        "title": "signal_title",
+        "body": "signal_body"
+      },
+      "selected_fields": [
+        "source_name",
+        "record_id",
+        "user_id",
+        "signal_title",
+        "signal_body",
+        "fetched_at"
+      ]
+    }
+  ],
+  "local_outputs": {
+    "enabled": true,
+    "output_dir": "automation/outputs"
+  }
+}

@@ -213,7 +213,7 @@ def get_duplicate_rows(df: pd.DataFrame, keep: bool = False) -> pd.DataFrame:
 def trim_text_columns(df: pd.DataFrame) -> pd.DataFrame:
     cleaned_df = df.copy()
 
-    for col in cleaned_df.select_dtypes(include="object").columns:
+    for col in cleaned_df.select_dtypes(include=["object", "string"]).columns:
         cleaned_df[col] = cleaned_df[col].astype(str).str.strip()
         cleaned_df[col] = cleaned_df[col].replace(
             ["nan", "None", "NONE", "null", "NULL", "", "N/A", "n/a", "NA", "na"],

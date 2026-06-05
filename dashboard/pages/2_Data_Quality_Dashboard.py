@@ -3,6 +3,8 @@ import pandas as pd
 
 from clean0ps_ui import (
     apply_clean0ps_style,
+    privacy_notice,
+    reset_workflow_button,
     hero,
     section_title,
     feature_card
@@ -34,6 +36,8 @@ st.set_page_config(
 )
 
 apply_clean0ps_style()
+privacy_notice()
+reset_workflow_button()
 
 hero(
     title="📋 Data Quality Dashboard",

@@ -18,7 +18,7 @@ def render_sidebar():
         st.markdown(
             """
             <div class="sidebar-brand">
-                <div class="sidebar-logo">🧹</div>
+                <div class="sidebar-logo">C</div>
                 <div>
                     <div class="sidebar-title">Clean0ps</div>
                     <div class="sidebar-subtitle">Data Cleaning Toolkit</div>
@@ -35,8 +35,7 @@ def render_sidebar():
 
         st.page_link(
             "app.py",
-            label="Home",
-            icon="🏠"
+            label="Home"
         )
 
         st.markdown(
@@ -46,14 +45,17 @@ def render_sidebar():
 
         st.page_link(
             "pages/4_Template Cleaning Engine.py",
-            label="Template Cleaning Engine",
-            icon="🧹"
+            label="Template Cleaning Engine"
         )
 
         st.page_link(
             "pages/2_Data_Quality_Dashboard.py",
-            label="Data Quality + Validation",
-            icon="📋"
+            label="Data Quality + Validation"
+        )
+
+        st.page_link(
+            "pages/6_Document_Standards_Cleanup_Lab.py",
+            label="Document Standards Cleanup"
         )
 
         st.markdown(
@@ -63,14 +65,12 @@ def render_sidebar():
 
         st.page_link(
             "pages/5_Ecommerce_Analytics_Lab.py",
-            label="E-commerce Analytics Lab",
-            icon="🛒"
+            label="E-commerce Analytics Lab"
         )
 
         st.page_link(
             "pages/1_Inventory_Dashboard.py",
-            label="Inventory Dashboard",
-            icon="📦"
+            label="Inventory Dashboard"
         )
 
         st.markdown(
@@ -84,8 +84,8 @@ def render_sidebar():
                 <div class="sidebar-workflow-title">Best For</div>
                 <div class="sidebar-workflow-text">
                     CSV cleanup, Excel cleanup, CRM lists, inventory files,
-                    e-commerce reporting, data audits, validation checks,
-                    and client-ready exports.
+                    document standards cleanup, e-commerce reporting,
+                    data audits, validation checks, and client-ready exports.
                 </div>
             </div>
             """,
@@ -116,47 +116,45 @@ def render_top_nav():
         unsafe_allow_html=True
     )
 
-    nav_cols = st.columns(5)
+    nav_cols = st.columns(6)
 
     with nav_cols[0]:
         st.page_link(
             "app.py",
-            label="Home",
-            icon="🏠"
+            label="Home"
         )
 
     with nav_cols[1]:
         st.page_link(
             "pages/4_Template Cleaning Engine.py",
-            label="Clean",
-            icon="🧹"
+            label="Clean"
         )
 
     with nav_cols[2]:
         st.page_link(
             "pages/2_Data_Quality_Dashboard.py",
-            label="Quality + Validation",
-            icon="📋"
+            label="Quality"
         )
 
     with nav_cols[3]:
         st.page_link(
-            "pages/1_Inventory_Dashboard.py",
-            label="Inventory",
-            icon="📦"
+            "pages/6_Document_Standards_Cleanup_Lab.py",
+            label="Docs"
         )
 
     with nav_cols[4]:
         st.page_link(
+            "pages/1_Inventory_Dashboard.py",
+            label="Inventory"
+        )
+
+    with nav_cols[5]:
+        st.page_link(
             "pages/5_Ecommerce_Analytics_Lab.py",
-            label="E-commerce",
-            icon="🛒"
+            label="E-commerce"
         )
 
 
-# --------------------------------------------------
-# Global Styling
-# --------------------------------------------------
 
 def apply_clean0ps_style():
     st.markdown(
@@ -929,23 +927,22 @@ def workflow_stepper(steps, active_index=0):
         else:
             status_class = ""
 
+        safe_step = html.escape(str(step))
+
         items.append(
-            f"""
-            <div class="clean0ps-step {status_class}">
-                <div class="clean0ps-step-number">{index + 1}</div>
-                <div class="clean0ps-step-label">{html.escape(str(step))}</div>
-            </div>
-            """
+            '<div class="clean0ps-step ' + status_class + '">'
+            '<div class="clean0ps-step-number">' + str(index + 1) + '</div>'
+            '<div class="clean0ps-step-label">' + safe_step + '</div>'
+            '</div>'
         )
 
+    html_block = '<div class="clean0ps-stepper">' + ''.join(items) + '</div>'
+
     st.markdown(
-        f"""
-        <div class="clean0ps-stepper">
-            {''.join(items)}
-        </div>
-        """,
+        html_block,
         unsafe_allow_html=True
     )
+
 
 
 def status_badge(label, status="info"):
@@ -1055,3 +1052,26 @@ def metric_card(label, value, caption=""):
         """,
         unsafe_allow_html=True
     )
+
+
+# --------------------------------------------------
+# Production Helpers
+# --------------------------------------------------
+
+def privacy_notice():
+    section_callout(
+        title="Privacy notice",
+        text=(
+            "Files are processed during the current app session. Clean0ps does not permanently store "
+            "uploaded files by default. Avoid uploading sensitive data unless you trust the environment "
+            "where this app is running."
+        ),
+        kind="warning"
+    )
+
+
+def reset_workflow_button(label="Reset Workflow"):
+    if st.button(label):
+        st.session_state.clear()
+        st.rerun()
+

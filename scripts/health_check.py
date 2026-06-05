@@ -1,5 +1,6 @@
 from pathlib import Path
 import py_compile
+import subprocess
 import sys
 
 
@@ -11,11 +12,12 @@ FILES_TO_CHECK = [
     "dashboard/pages/2_Data_Quality_Dashboard.py",
     "dashboard/pages/4_Template Cleaning Engine.py",
     "dashboard/pages/5_Ecommerce_Analytics_Lab.py",
+    "dashboard/pages/6_Document_Standards_Cleanup_Lab.py",
 ]
 
 
-def main():
-    print("Running Clean0ps health check...\n")
+def compile_files():
+    print("Running Clean0ps compile check...\n")
 
     failed = []
 
@@ -36,7 +38,22 @@ def main():
             print(error)
             failed.append(file_path)
 
-    print("\nHealth check complete.")
+    return failed
+
+
+def run_pytest():
+    print("\nRunning pytest...\n")
+
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", "-q"],
+        text=True
+    )
+
+    return result.returncode
+
+
+def main():
+    failed = compile_files()
 
     if failed:
         print("\nFiles needing attention:")
@@ -44,7 +61,13 @@ def main():
             print(f"- {item}")
         sys.exit(1)
 
-    print("All checked files passed.")
+    pytest_code = run_pytest()
+
+    if pytest_code != 0:
+        print("\nPytest failed.")
+        sys.exit(pytest_code)
+
+    print("\nAll compile checks and tests passed.")
 
 
 if __name__ == "__main__":

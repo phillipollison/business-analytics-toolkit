@@ -5,261 +5,239 @@ from clean0ps_ui import (
     hero,
     section_title,
     feature_card,
-    mini_card
+    mini_card,
+    workflow_stepper,
+    badge_row,
+    section_callout,
+    info_panel,
+    download_card,
+    privacy_notice
 )
 
+
 st.set_page_config(
-    page_title="Clean0ps",
-    page_icon="🧹",
+    page_title="Clean0ps Home",
+    page_icon="C",
     layout="wide"
 )
 
 apply_clean0ps_style()
 
 hero(
-    title="🧹 Clean0ps",
+    title="Clean0ps",
     subtitle=(
-        "A modern data cleaning and audit toolkit for messy CSV and Excel files. "
-        "Clean0ps helps clean, organize, validate, audit, and export client-ready datasets "
-        "for business, CRM, inventory, sports, and extracted data workflows."
+        "A production-minded data cleaning and analytics toolkit for messy CSV and Excel files. "
+        "Clean files, audit data quality, validate document standards extractions, analyze inventory, "
+        "build e-commerce reports, and export client-ready deliverables."
     ),
-    pill="DATA CLEANING · AUDIT REPORTS · CLIENT DELIVERABLES"
+    pill="DATA CLEANING - VALIDATION - DOCUMENTS - INVENTORY - E-COMMERCE"
 )
 
-col1, col2, col3 = st.columns(3)
+privacy_notice()
+
+badge_row([
+    ("CSV + Excel Ready", "success"),
+    ("Client Exports", "info"),
+    ("Data Quality Checks", "success"),
+    ("Document Standards Cleanup", "warning"),
+    ("Inventory + E-commerce Analytics", "info")
+])
+
+section_title("Start Here")
+
+section_callout(
+    title="Choose the workflow that matches the file or job.",
+    text=(
+        "Use Template Cleaning for messy files, Data Quality + Validation for audits, "
+        "Document Standards Cleanup for PDF/LLM extraction review, Inventory for product and stock files, "
+        "and E-commerce Analytics Lab for orders, customers, ads, sessions, products, and subscriptions."
+    ),
+    kind="info"
+)
+
+workflow_stepper(
+    [
+        "Upload Data",
+        "Choose Workflow",
+        "Clean / Validate",
+        "Review Results",
+        "Download Deliverables"
+    ],
+    active_index=0
+)
+
+start1, start2, start3, start4, start5 = st.columns(5)
+
+with start1:
+    mini_card("MAIN", "Clean Messy Files")
+
+with start2:
+    mini_card("AUDIT", "Validate Data")
+
+with start3:
+    mini_card("DOCS", "Verify Extractions")
+
+with start4:
+    mini_card("OPS", "Analyze Inventory")
+
+with start5:
+    mini_card("BI", "Model E-commerce")
+
+section_title("Choose a Workflow")
+
+col1, col2 = st.columns(2)
 
 with col1:
-    st.metric(
-        "Primary Workflow",
-        "Clean + Audit"
+    info_panel(
+        "Template Cleaning Engine",
+        (
+            "Best for messy CSV and Excel files. Clean columns, remove blanks, remove duplicates, "
+            "sort records, rename fields, generate review files, and export client-ready deliverables."
+        )
+    )
+
+    st.page_link(
+        "pages/4_Template Cleaning Engine.py",
+        label="Open Template Cleaning Engine"
     )
 
 with col2:
-    st.metric(
-        "Best For",
-        "CSV / Excel"
+    info_panel(
+        "Data Quality + Validation",
+        (
+            "Best for auditing files before reporting or delivery. Detect missing values, duplicate rows, "
+            "required-field problems, invalid dates, text issues, and records that need review."
+        )
     )
+
+    st.page_link(
+        "pages/2_Data_Quality_Dashboard.py",
+        label="Open Data Quality + Validation"
+    )
+
+col3, col4 = st.columns(2)
 
 with col3:
-    st.metric(
-        "Deliverables",
-        "5 Exports"
-    )
-
-section_title("What Clean0ps Does")
-
-card1, card2, card3 = st.columns(3)
-
-with card1:
-    feature_card(
-        "🧽 Clean Messy Files",
+    info_panel(
+        "Document Standards Cleanup",
         (
-            "Remove blank rows, exact duplicates, messy column names, extra spaces, "
-            "inconsistent formatting, and common spreadsheet clutter."
+            "Best for PDF/LLM extraction cleanup, standards records, page and section validation, "
+            "source verification tracking, confidence review, and database-ready exports."
         )
     )
 
-with card2:
-    feature_card(
-        "📋 Validate Data Quality",
+    st.page_link(
+        "pages/6_Document_Standards_Cleanup_Lab.py",
+        label="Open Document Standards Cleanup"
+    )
+
+with col4:
+    info_panel(
+        "Inventory Dashboard",
         (
-            "Detect must-fix issues, manual review items, optional improvements, "
-            "missing values, negative values, duplicate records, and risky fields."
+            "Best for product catalogs, stock reports, SKU files, reorder planning, low-stock review, "
+            "out-of-stock risk, overstock risk, and inventory value reporting."
         )
     )
 
-with card3:
-    feature_card(
-        "📦 Export Client Files",
+    st.page_link(
+        "pages/1_Inventory_Dashboard.py",
+        label="Open Inventory Dashboard"
+    )
+
+col5, col6 = st.columns(2)
+
+with col5:
+    info_panel(
+        "E-commerce Analytics Lab",
         (
-            "Generate cleaned CSV files, cleaned Excel workbooks, review files, "
-            "audit reports, CRM hitlists, and plain-English client summaries."
+            "Best for e-commerce BI work. Assign source files, map columns, build fact and dimension tables, "
+            "validate relationships, calculate KPIs, and export dashboard-ready reports."
         )
     )
 
-section_title("Workflow")
-
-w1, w2, w3, w4, w5 = st.columns(5)
-
-with w1:
-    mini_card(
-        "STEP 1",
-        "Upload File"
+    st.page_link(
+        "pages/5_Ecommerce_Analytics_Lab.py",
+        label="Open E-commerce Analytics Lab"
     )
 
-with w2:
-    mini_card(
-        "STEP 2",
-        "Choose Template"
+with col6:
+    info_panel(
+        "Production Readiness",
+        (
+            "The app includes shared backend helpers, shared UI components, error logging, health checks, "
+            "privacy notices, reset controls, demo datasets, and export workflows."
+        )
     )
 
-with w3:
-    mini_card(
-        "STEP 3",
-        "Clean + Organize"
-    )
+section_title("What Clean0ps Can Produce")
 
-with w4:
-    mini_card(
-        "STEP 4",
-        "Audit Issues"
-    )
-
-with w5:
-    mini_card(
-        "STEP 5",
-        "Download Files"
-    )
-
-section_title("Cleaning Templates")
-
-t1, t2, t3, t4 = st.columns(4)
-
-with t1:
-    feature_card(
-        "Quick Spreadsheet Cleanup",
-        "Clean simple Excel and CSV files for duplicates, blanks, spacing, sorting, and formatting."
-    )
-
-with t2:
-    feature_card(
-        "Business Sales Data",
-        "Prepare sales, revenue, product, date, and reporting data for analysis or dashboards."
-    )
-
-with t3:
-    feature_card(
-        "Inventory / Product Data",
-        "Clean SKU, product, barcode, stock, vendor, reorder, and product catalog files."
-    )
-
-with t4:
-    feature_card(
-        "Lead List / CRM Data",
-        "Clean B2B lead lists, CRM exports, websites, contacts, and sales hitlists."
-    )
-
-t5, t6, t7, t8 = st.columns(4)
-
-with t5:
-    feature_card(
-        "Sports Stats / Props",
-        "Validate player stats, prop logs, hit-rate records, sports datasets, and impossible values."
-    )
-
-with t6:
-    feature_card(
-        "NBA Player Reference",
-        "Clean NBA player master tables, IDs, names, teams, and reference data."
-    )
-
-with t7:
-    feature_card(
-        "PDF / LLM Extraction",
-        "Clean messy extracted tables from PDFs, OCR tools, and AI-generated outputs."
-    )
-
-with t8:
-    feature_card(
-        "Custom Dataset",
-        "Run universal cleaning and auditing when no predefined template fits perfectly."
-    )
-
-section_title("Client Deliverables")
-
-d1, d2, d3, d4, d5 = st.columns(5)
+d1, d2, d3 = st.columns(3)
 
 with d1:
-    mini_card(
-        "EXPORT",
-        "Cleaned CSV"
+    download_card(
+        "Cleaning Deliverables",
+        (
+            "Cleaned CSV files, Excel cleaning reports, rows needing review, client summary text files, "
+            "and full deliverables ZIP exports."
+        )
     )
 
 with d2:
-    mini_card(
-        "EXPORT",
-        "Cleaned Excel"
+    download_card(
+        "Audit + Document Deliverables",
+        (
+            "Data quality audit workbooks, missing value reports, duplicate reviews, document extraction review files, "
+            "database-ready exports, validation summaries, and action plans."
+        )
     )
 
 with d3:
-    mini_card(
-        "EXPORT",
-        "Review File"
-    )
-
-with d4:
-    mini_card(
-        "EXPORT",
-        "Audit Report"
-    )
-
-with d5:
-    mini_card(
-        "EXPORT",
-        "Client Summary"
-    )
-
-section_title("Current Modules")
-
-m1, m2, m3, m4 = st.columns(4)
-
-with m1:
-    feature_card(
-        "📦 Inventory Dashboard",
-        "Review inventory files, stock levels, reorder points, product counts, and low-stock records."
-    )
-
-with m2:
-    feature_card(
-        "📋 Data Quality Dashboard",
-        "Profile datasets for missing values, duplicates, empty columns, data types, and quality score."
-    )
-
-with m3:
-    feature_card(
-        "✅ Validation Engine",
-        "Run rule-based checks for business, sports, and NBA player reference datasets."
-    )
-
-with m4:
-    feature_card(
-        "🧹 Template Cleaning Engine",
-        "Clean, rename, organize, audit, export, and generate client-ready deliverables."
-    )
-
-section_title("Built For Real Client Work")
-
-u1, u2, u3 = st.columns(3)
-
-with u1:
-    feature_card(
-        "Upwork Data Cleaning Jobs",
+    download_card(
+        "Analytics Deliverables",
         (
-            "Designed around common client requests like removing duplicates, "
-            "organizing columns, cleaning Excel files, and preparing final deliverables."
+            "Inventory audit workbooks, reorder CSVs, e-commerce KPI reports, modeled table ZIPs, "
+            "and BI-ready dashboard exports."
         )
     )
 
-with u2:
+section_title("Best Use Cases")
+
+use1, use2, use3 = st.columns(3)
+
+with use1:
     feature_card(
-        "CRM / Lead List Projects",
+        "Freelance Data Cleanup",
         (
-            "Supports website validation, contact cleanup, field selection, "
-            "column renaming, and clean hitlist exports."
+            "Clean messy spreadsheets, CRM files, lead lists, inventory sheets, extracted tables, and client exports."
         )
     )
 
-with u3:
+with use2:
     feature_card(
-        "Portfolio + Interview Demos",
+        "PDF / LLM Extraction Review",
         (
-            "Shows practical data cleaning, validation rules, UI design, "
-            "export workflows, and client-focused thinking."
+            "Validate extracted standards data, page numbers, section IDs, confidence scores, source verification, "
+            "and records needing manual review."
         )
     )
 
-st.divider()
+with use3:
+    feature_card(
+        "Business Analytics Reporting",
+        (
+            "Model raw e-commerce files into reporting tables and calculate revenue, AOV, ROAS, CAC, LTV, churn, "
+            "MRR, product performance, and customer value."
+        )
+    )
 
-st.success(
-    "Use the sidebar to open the Template Cleaning Engine and start cleaning a file."
+section_title("Recommended Starting Point")
+
+section_callout(
+    title="Most users should start with Template Cleaning or Document Standards Cleanup.",
+    text=(
+        "Start with Template Cleaning when the file is generally messy. Start with Document Standards Cleanup "
+        "when the data came from a PDF, OCR, LLM, or standards ingestion workflow."
+    ),
+    kind="success"
 )
