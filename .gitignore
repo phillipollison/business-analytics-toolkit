@@ -1,4 +1,4 @@
-# Python
+# Python cache
 __pycache__/
 *.py[cod]
 *.pyo
@@ -10,20 +10,35 @@ venv/
 .venv/
 env/
 
-# Mac
+# Mac junk
 .DS_Store
 
 # Environment / secrets
 .env
 .streamlit/secrets.toml
+secrets/
+*.pem
+*.key
+*.json.key
 
 # Logs
 logs/*.log
 !logs/.gitkeep
 
-# Temporary exports
+# Generated exports / local outputs
 tmp/
 exports/
+automation/outputs/
+automation/locks/
+data/processed/
+warehouse/exports/
+warehouse/*.duckdb
+warehouse/*.wal
 
 # Editor
 .vscode/settings.json
+
+# Node junk if any ever appears here
+node_modules/
+.next/
+out/
