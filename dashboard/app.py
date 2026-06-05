@@ -1,3 +1,12 @@
+import sys
+from pathlib import Path
+
+CURRENT_FILE = Path(__file__).resolve()
+PROJECT_ROOT = CURRENT_FILE.parents[2] if CURRENT_FILE.parent.name == "pages" else CURRENT_FILE.parents[1]
+
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 import streamlit as st
 
 from clean0ps_ui import (
