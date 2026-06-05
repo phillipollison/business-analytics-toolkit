@@ -1,0 +1,260 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw ecommerce source tables loaded from client files, exports, or warehouse tables.
+    tables:
+      - name: orders
+        description: Raw order-level transaction table.
+      - name: order_items
+        description: Raw order item / line item table.
+      - name: customers
+        description: Raw customer table.
+      - name: products
+        description: Raw product catalog table.
+      - name: ad_spend
+        description: Raw paid advertising spend table.
+      - name: web_sessions
+        description: Raw web analytics sessions table.
+      - name: subscriptions
+        description: Raw subscription lifecycle table.
+
+models:
+  - name: stg_orders
+    description: Standardized order source table with clean types and names.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: order_date
+        tests:
+          - not_null
+      - name: revenue
+        tests:
+          - not_null
+
+  - name: stg_order_items
+    description: Standardized order item source table.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+      - name: quantity
+        tests:
+          - not_null
+
+  - name: stg_customers
+    description: Standardized customer source table.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_products
+    description: Standardized product source table.
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_ad_spend
+    description: Standardized advertising spend source table.
+    columns:
+      - name: spend_date
+        tests:
+          - not_null
+      - name: channel
+        tests:
+          - not_null
+      - name: spend
+        tests:
+          - not_null
+
+  - name: stg_web_sessions
+    description: Standardized web sessions source table.
+    columns:
+      - name: session_id
+        tests:
+          - not_null
+          - unique
+      - name: session_date
+        tests:
+          - not_null
+      - name: channel
+        tests:
+          - not_null
+      - name: converted
+        tests:
+          - accepted_values:
+              values: [0, 1]
+
+  - name: stg_subscriptions
+    description: Standardized subscriptions source table.
+    columns:
+      - name: subscription_id
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        tests:
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['active', 'trialing', 'canceled', 'cancelled', 'churned', 'paused', 'unknown']
+
+  - name: fct_orders
+    description: Order-level fact table for revenue, AOV, customers, refunds, and channel reporting.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+      - name: order_date
+        tests:
+          - not_null
+      - name: revenue
+        tests:
+          - not_null
+      - name: net_revenue
+        tests:
+          - not_null
+
+  - name: fct_order_items
+    description: Line-item fact table for product performance reporting.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('fct_orders')
+              field: order_id
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+      - name: quantity
+        tests:
+          - not_null
+
+  - name: fct_ad_spend
+    description: Advertising spend fact table for ROAS, CAC, CPC, and CPM.
+    columns:
+      - name: spend_date
+        tests:
+          - not_null
+      - name: channel
+        tests:
+          - not_null
+      - name: spend
+        tests:
+          - not_null
+
+  - name: fct_sessions
+    description: Web analytics session fact table for conversion rate and traffic reporting.
+    columns:
+      - name: session_id
+        tests:
+          - not_null
+          - unique
+      - name: session_date
+        tests:
+          - not_null
+      - name: channel
+        tests:
+          - not_null
+      - name: converted
+        tests:
+          - accepted_values:
+              values: [0, 1]
+
+  - name: fct_subscriptions
+    description: Subscription lifecycle fact table for churn, active subscriptions, and MRR.
+    columns:
+      - name: subscription_id
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['active', 'trialing', 'canceled', 'cancelled', 'churned', 'paused', 'unknown']
+
+  - name: dim_customers
+    description: Customer dimension table used for customer-level reporting and LTV analysis.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_products
+    description: Product dimension table used for product and category reporting.
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_channels
+    description: Channel dimension table used for paid, owned, organic, and other channel grouping.
+    columns:
+      - name: channel
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_dates
+    description: Date dimension table used for monthly, quarterly, and yearly reporting.
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+          - unique
+
+  - name: channel_performance
+    description: Channel-level reporting model for revenue, spend, ROAS, CAC, CPC, CPM, sessions, and conversion rate.
+    columns:
+      - name: channel
+        tests:
+          - not_null
+
+  - name: customer_ltv
+    description: Customer-level LTV model with order count, lifetime revenue, AOV, and customer type.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+          - unique
+
+  - name: product_performance
+    description: Product-level performance model with quantity sold, product revenue, order count, and revenue per unit.
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+          - unique
+
+  - name: ecommerce_kpis
+    description: One-row KPI model containing executive ecommerce metrics.

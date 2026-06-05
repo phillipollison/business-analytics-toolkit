@@ -1,22 +1,26 @@
-from sqlalchemy import create_engine
+import streamlit as st
 
-DB_USER = "postgres"
-DB_PASSWORD = "8020405"
-DB_HOST = "localhost"
-DB_PORT = "5432"
-DB_NAME = "business_toolkit"
-
-engine = create_engine(
-    f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+st.set_page_config(
+    page_title="Business Analytics Toolkit",
+    page_icon="📊",
+    layout="wide"
 )
 
-def load_sales_data(df):
+st.title("📊 Business Analytics Toolkit")
 
-    df.to_sql(
-        "sales_raw",
-        engine,
-        if_exists="append",
-        index=False
-    )
+st.markdown("""
+### Welcome
 
-    print("Loaded into PostgreSQL")
+This toolkit helps users:
+
+- Clean messy datasets
+- Analyze data quality
+- Organize datasets
+- Explore inventory data
+- Generate reports
+- Validate sports and business datasets
+
+Use the navigation menu on the left to open each module.
+""")
+
+st.success("Toolkit Loaded Successfully")
