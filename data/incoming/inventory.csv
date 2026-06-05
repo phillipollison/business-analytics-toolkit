@@ -1,0 +1,6 @@
+product_name,category,inventory_on_hand,reorder_point,cost
+Coca-Cola,Beverages,120,50,1.25
+Pepsi,Beverages,80,50,1.20
+Milk,Dairy,20,40,3.50
+Ground Beef,Meat,15,30,5.99
+Doritos,Snacks,100,40,2.00

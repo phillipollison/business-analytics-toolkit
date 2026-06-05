@@ -1,7 +1,29 @@
-venv/
+# Python
 __pycache__/
-*.pyc
-.env
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Mac
 .DS_Store
 
+# Environment / secrets
+.env
+.streamlit/secrets.toml
 
+# Logs
+logs/*.log
+!logs/.gitkeep
+
+# Temporary exports
+tmp/
+exports/
+
+# Editor
+.vscode/settings.json

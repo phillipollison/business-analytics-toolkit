@@ -499,3 +499,94 @@ def get_friendly_error(error: Exception) -> Tuple[str, str]:
         "Clean0ps ran into a problem while processing this file.",
         str(error)
     )
+
+# ==================================================
+# PRODUCTION LOGGING HELPERS
+# Lightweight local logging for Clean0ps.
+# This intentionally overrides get_friendly_error above
+# so page-level error handling also writes to logs.
+# ==================================================
+
+import logging
+import traceback
+from datetime import datetime
+from pathlib import Path
+
+
+LOG_DIR = Path("logs")
+LOG_DIR.mkdir(exist_ok=True)
+
+ERROR_LOG_FILE = LOG_DIR / "clean0ps_errors.log"
+EVENT_LOG_FILE = LOG_DIR / "clean0ps_events.log"
+
+
+def _configure_logger(logger_name: str, log_file: Path) -> logging.Logger:
+    logger = logging.getLogger(logger_name)
+    logger.setLevel(logging.INFO)
+
+    if not logger.handlers:
+        file_handler = logging.FileHandler(log_file, encoding="utf-8")
+        formatter = logging.Formatter(
+            "%(asctime)s | %(levelname)s | %(message)s"
+        )
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+
+    return logger
+
+
+error_logger = _configure_logger("clean0ps_errors", ERROR_LOG_FILE)
+event_logger = _configure_logger("clean0ps_events", EVENT_LOG_FILE)
+
+
+def log_event(event_name: str, details: str = "") -> None:
+    """
+    Log a normal app event.
+    Example: file uploaded, export created, workflow completed.
+    """
+    try:
+        event_logger.info(f"{event_name} | {details}")
+    except Exception:
+        # Logging should never break the app.
+        pass
+
+
+def log_error(error: Exception, context: str = "") -> None:
+    """
+    Log unexpected or handled errors for debugging.
+    """
+    try:
+        error_type = type(error).__name__
+        error_message = str(error)
+        trace = traceback.format_exc()
+
+        error_logger.error(
+            f"context={context} | type={error_type} | message={error_message}\n{trace}"
+        )
+
+    except Exception:
+        # Logging should never break the app.
+        pass
+
+
+def get_friendly_error(error: Exception):
+    """
+    Convert exceptions into user-friendly and technical messages.
+    Also logs the technical error locally.
+    """
+    log_error(error, context="get_friendly_error")
+
+    if isinstance(error, Clean0psError):
+        return error.user_message, error.technical_message
+
+    return (
+        "Clean0ps ran into a problem while processing this file.",
+        str(error)
+    )
+
+
+def get_timestamp_label() -> str:
+    """
+    Create a safe timestamp label for exports or logs.
+    """
+    return datetime.now().strftime("%Y%m%d_%H%M%S")
