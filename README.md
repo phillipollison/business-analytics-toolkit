@@ -1,407 +1,517 @@
-# busines# Clean0ps: Data Cleaning and E-commerce Analytics Toolkit
+# Clean0ps: Data Cleaning, Validation, and Automation Toolkit
 
-Clean0ps is a Python and Streamlit-based data cleaning, validation, and analytics toolkit designed to turn messy CSV and Excel files into clean, organized, client-ready deliverables.
+Clean0ps is a Python and Streamlit-based data cleaning and analytics toolkit designed to turn messy CSV, Excel, extracted PDF, inventory, e-commerce, and API data into clean, validated, client-ready outputs.
 
-The project started as a data cleaning tool for spreadsheet cleanup jobs, then expanded into a multi-purpose analytics toolkit with support for CRM lead lists, inventory files, data quality audits, and e-commerce analytics reporting.
+The project was built to solve a common real-world problem: businesses often receive messy files from different systems, vendors, exports, PDFs, CRMs, inventory tools, and APIs. Before the data can be used for reporting, automation, or decision-making, it has to be cleaned, standardized, validated, reviewed, and exported in a reliable format.
 
-## Project Purpose
+Clean0ps brings those workflows into one application.
 
-Many small businesses, freelancers, and data teams deal with messy spreadsheets that are difficult to analyze or import into dashboards. These files often contain duplicate rows, blank values, inconsistent column names, missing required fields, poor formatting, or incomplete records.
+---
 
-Clean0ps solves this by helping users:
+## Project Overview
 
-* Upload messy CSV or Excel files
-* Clean and organize spreadsheet data
-* Rename and standardize columns
-* Validate data quality issues
-* Generate records requiring review
-* Export cleaned client-ready files
-* Build e-commerce KPI dashboards
-* Model e-commerce data into fact and dimension tables
-* Export dashboard-ready reports and modeled tables
+Clean0ps supports multiple data workflows:
 
-## Case Study: E-commerce Analytics Lab
+* General CSV and Excel cleanup
+* Data quality auditing and validation
+* Inventory analysis and reorder review
+* E-commerce analytics modeling
+* PDF / LLM / OCR extraction cleanup
+* Local API automation with scheduled output generation
+* Client-ready CSV, Excel, TXT, and ZIP deliverables
 
-### Problem
+The goal of this project is not just to display data. The goal is to help users move from messy input files to reliable output files with a clear audit trail.
 
-E-commerce brands often rely on multiple disconnected data sources, including orders, products, customers, web sessions, ad spend, and subscriptions. These datasets are commonly exported from different platforms and may not be ready for reporting.
+---
 
-A data consulting workflow usually needs to answer questions such as:
+## Why This Project Matters
 
-* Which marketing channels drive the most revenue?
-* What is ROAS by channel?
-* What is average order value?
-* Which products perform best?
-* What is customer lifetime value?
-* What is the repeat purchase rate?
-* What is the subscription churn rate?
-* Are source tables clean enough to trust the dashboard?
+Many data projects fail before analysis even begins because the input data is inconsistent, incomplete, duplicated, poorly named, or incorrectly formatted.
 
-### Solution
+Clean0ps focuses on the practical first mile of analytics work:
 
-The E-commerce Analytics Lab inside Clean0ps allows users to load e-commerce datasets, assign each file to a source table, map raw columns into clean reporting fields, and generate modeled analytics tables.
+1. Read messy data
+2. Normalize fields
+3. Detect data quality issues
+4. Separate safe fixes from manual-review items
+5. Generate cleaned outputs
+6. Export audit-ready deliverables
+7. Support repeatable workflows
 
-The workflow follows an analytics engineering pattern:
+This project demonstrates skills in data cleaning, validation, backend logic, UI design, file processing, automation, reporting, and production-oriented project organization.
 
-```text
-Raw Files
-↓
-Source Table Assignment
-↓
-Column Mapping
-↓
-Staging Logic
-↓
-Fact and Dimension Tables
-↓
-Model Validation Tests
-↓
-Dashboard KPIs
-↓
-Client Reports and Exports
-```
+---
 
-### Modeled Tables
-
-Clean0ps builds a star-schema-style reporting layer using fact and dimension tables.
-
-#### Fact Tables
-
-* `fact_orders`
-* `fact_order_items`
-* `fact_ad_spend`
-* `fact_sessions`
-* `fact_subscriptions`
-
-#### Dimension Tables
-
-* `dim_customers`
-* `dim_products`
-* `dim_channels`
-* `dim_dates`
-
-#### Reporting Models
-
-* `channel_performance`
-* `customer_ltv`
-* `product_performance`
-* `ecommerce_kpis`
-
-## Key Metrics
-
-The E-commerce Analytics Lab calculates core business KPIs, including:
-
-* Revenue
-* Total orders
-* Average order value
-* Customer count
-* Customer lifetime value
-* Repeat purchase rate
-* Refund rate
-* Ad spend
-* ROAS
-* CAC
-* CPC
-* CPM
-* Sessions
-* Conversion rate
-* Active subscriptions
-* Subscription churn
-* Monthly recurring revenue
-
-## Model Validation
-
-Clean0ps includes validation checks designed to support accurate reporting.
-
-Current validation checks include:
-
-* Not-null checks
-* Unique ID checks
-* Non-negative value checks
-* Relationship checks between facts and dimensions
-* Accepted value checks for subscription status and conversion fields
-* Orphan record detection
-* Duplicate row detection
-* Missing value detection
-
-Examples:
-
-```text
-fact_orders.customer_id should exist in dim_customers.customer_id
-fact_order_items.product_id should exist in dim_products.product_id
-fact_order_items.order_id should exist in fact_orders.order_id
-fact_subscriptions.customer_id should exist in dim_customers.customer_id
-```
-
-## Data Cleaning Features
-
-The Template Cleaning Engine supports common spreadsheet cleanup workflows.
-
-Features include:
-
-* Remove blank rows
-* Remove exact duplicate rows
-* Clean column names
-* Trim extra spaces from text fields
-* Standardize dates when possible
-* Keep or remove selected columns
-* Rename columns for client delivery
-* Sort rows
-* Alphabetize columns
-* Generate client summaries
-* Export cleaned CSV and Excel files
-* Export records requiring review
-* Export audit reports
-
-## Supported Workflows
-
-Clean0ps currently supports multiple data workflows:
-
-* Quick spreadsheet cleanup
-* Business sales data
-* Inventory and product data
-* Lead list and CRM data
-* Sports stats and player props
-* NBA player reference data
-* PDF and LLM extraction cleanup
-* E-commerce analytics reporting
-
-## Main App Pages
-
-### Home
-
-A simple overview of Clean0ps, what it does, and where users should start.
+## Core Features
 
 ### Template Cleaning Engine
 
-The main data cleaning workflow for uploading, cleaning, organizing, auditing, and exporting messy files.
+The Template Cleaning Engine is the main cleaning workflow for messy CSV and Excel files.
 
-### Data Quality Dashboard
+It can:
 
-Profiles datasets for quality risks, missing values, duplicate rows, column issues, text problems, date problems, and required field problems.
+* Clean column names
+* Remove completely blank rows
+* Remove exact duplicate rows
+* Drop empty columns
+* Trim extra spaces from text fields
+* Standardize date-like columns
+* Standardize email and phone fields
+* Rename selected columns
+* Sort rows
+* Reorder columns
+* Create rows-needing-review reports
+* Export cleaned files and audit reports
+
+This workflow is useful for freelance data cleanup, CRM cleanup, spreadsheet preparation, business reporting, and client-ready file delivery.
+
+---
+
+### Data Quality + Validation Dashboard
+
+The Data Quality + Validation page reviews a file for common data problems before it is used for analysis or reporting.
+
+It checks for:
+
+* Missing values
+* Duplicate rows
+* Empty columns
+* Risky fields
+* Required field issues
+* Invalid formats
+* Basic quality score
+* Column-level summaries
+
+Outputs include quality reports, issue summaries, and cleaned exports.
+
+---
 
 ### Inventory Dashboard
 
-Analyzes product and inventory files for stock levels, zero-stock items, low-stock items, overstock risk, reorder planning, inventory value, and inventory health.
+The Inventory Dashboard helps analyze product and stock data.
 
-### Validation Engine
+It supports:
 
-Runs rule-based validation checks for selected data templates.
+* Product-level inventory review
+* Low-stock detection
+* Out-of-stock risk
+* Overstock risk
+* Inventory value estimates
+* Reorder planning
+* Category-level summaries
+* Inventory audit exports
+
+This workflow is designed for product catalogs, SKU lists, stock exports, retail operations, and vendor files.
+
+---
 
 ### E-commerce Analytics Lab
 
-Builds e-commerce reporting models, validates relationships, calculates KPIs, creates dashboard views, and exports modeled tables and client reports.
+The E-commerce Analytics Lab models raw e-commerce files into reporting-ready tables.
 
-## dbt-Style Model Layer
+It supports source files such as:
 
-The repository includes a dbt-style model structure to show how the e-commerce workflow could translate into a warehouse-based analytics project.
+* Orders
+* Order items
+* Customers
+* Products
+* Ad spend
+* Web sessions
+* Subscriptions
 
-```text
-models/
-├── staging/
-│   ├── stg_orders.sql
-│   ├── stg_order_items.sql
-│   ├── stg_customers.sql
-│   ├── stg_products.sql
-│   ├── stg_ad_spend.sql
-│   ├── stg_web_sessions.sql
-│   └── stg_subscriptions.sql
-├── marts/
-│   ├── fct_orders.sql
-│   ├── fct_order_items.sql
-│   ├── fct_ad_spend.sql
-│   ├── fct_sessions.sql
-│   ├── fct_subscriptions.sql
-│   ├── dim_customers.sql
-│   ├── dim_products.sql
-│   ├── dim_channels.sql
-│   ├── dim_dates.sql
-│   ├── channel_performance.sql
-│   ├── customer_ltv.sql
-│   ├── product_performance.sql
-│   └── ecommerce_kpis.sql
-└── schema.yml
-```
+It calculates business metrics including:
 
-The SQL models use BigQuery-style syntax and demonstrate analytics engineering concepts such as staging, fact tables, dimension tables, reporting marts, and model tests.
+* Revenue
+* Orders
+* Average order value
+* Customer count
+* ROAS
+* CAC
+* LTV
+* Conversion rate
+* Repeat purchase rate
+* Refund rate
+* Churn rate
+* MRR
+* Product performance
 
-## Example SQL Model
+It also includes dbt and BigQuery-style SQL examples to show how the modeled logic could be translated into analytics engineering workflows.
 
-```sql
-with revenue_by_channel as (
+---
 
-    select
-        channel,
-        sum(net_revenue) as revenue,
-        count(distinct order_id) as orders,
-        count(distinct customer_id) as customers
+### Document Standards Cleanup Lab
 
-    from {{ ref('fct_orders') }}
+The Document Standards Cleanup Lab supports structured data extracted from PDFs, standards documents, OCR tools, or LLM ingestion workflows.
 
-    group by 1
+It is designed for records that include fields such as:
 
-),
+* Document name
+* Page number
+* Section ID
+* Section title
+* Requirement text
+* Extracted value
+* Unit
+* Category
+* Confidence score
+* Review status
+* Source verification status
+* Review notes
 
-spend_by_channel as (
+It flags:
 
-    select
-        channel,
-        sum(spend) as spend,
-        sum(clicks) as clicks,
-        sum(impressions) as impressions
+* Missing document names
+* Invalid page numbers
+* Missing section IDs
+* Missing requirement text
+* Duplicate section IDs
+* Low-confidence extraction rows
+* Unverified source records
+* Unexpected review statuses
+* Blank extracted values
 
-    from {{ ref('fct_ad_spend') }}
+This workflow is useful for PDF extraction cleanup, LLM output validation, standards document review, and database-ready publishing workflows.
 
-    group by 1
+---
 
-)
+### Scheduled Data Automation Lab
 
-select
-    s.channel,
-    s.spend,
-    r.revenue,
-    r.orders,
-    r.customers,
-    safe_divide(r.revenue, s.spend) as roas,
-    safe_divide(s.spend, s.clicks) as cpc,
-    safe_divide(s.spend, s.impressions) * 1000 as cpm
+The Scheduled Data Automation Lab supports lightweight API-to-local-output automation.
 
-from spend_by_channel s
+It can:
 
-left join revenue_by_channel r
-    on s.channel = r.channel;
-```
+* Read configurable API source settings
+* Pull structured data from approved API endpoints
+* Normalize API response fields
+* Remove exact duplicates
+* Remove key-based duplicates
+* Validate required fields
+* Log source errors
+* Save local CSV outputs
+* Save Excel audit reports
+* Run manually
+* Run on a schedule with cron
 
-## Screenshots
+The current production-ready V1 focuses on local outputs. Google Sheets integration is intentionally paused for now to keep the workflow simpler and safer while the core automation logic is tested.
 
-Add screenshots to the `assets/screenshots/` folder.
+---
 
-Recommended screenshots:
+## Technical Stack
 
-```text
-assets/screenshots/home_page.png
-assets/screenshots/template_cleaning_engine.png
-assets/screenshots/data_quality_dashboard.png
-assets/screenshots/inventory_dashboard.png
-assets/screenshots/ecommerce_kpi_dashboard.png
-assets/screenshots/ecommerce_model_validation.png
-assets/screenshots/ecommerce_modeled_tables.png
-assets/screenshots/ecommerce_sql_examples.png
-```
-
-## Tech Stack
+### Application
 
 * Python
 * Streamlit
 * Pandas
+
+### File Processing
+
+* CSV
+* Excel
 * OpenPyXL
-* SQL
-* dbt-style model organization
-* BigQuery-style SQL syntax
-* CSV and Excel file handling
+* XlsxWriter
+
+### Automation
+
+* Python scripts
+* Configurable JSON settings
+* API requests
+* Local output generation
+* Cron scheduling support
+
+### Testing and Reliability
+
+* Pytest
+* Compile health check script
+* Local error logging
+* Local event logging
+* Config validation
+* Workflow reset controls
+* Privacy notices
+
+---
 
 ## Project Structure
 
 ```text
 business-analytics-toolkit/
-├── clean0ps_ui.py
+├── automation/
+│   ├── configs/
+│   │   └── config.example.json
+│   ├── outputs/
+│   ├── locks/
+│   ├── __init__.py
+│   ├── workflow.py
+│   └── run_daily.py
+│
 ├── dashboard/
 │   ├── app.py
 │   └── pages/
 │       ├── 1_Inventory_Dashboard.py
 │       ├── 2_Data_Quality_Dashboard.py
-│       ├── 3_Validation_Engine.py
 │       ├── 4_Template Cleaning Engine.py
-│       └── 5_Ecommerce_Analytics_Lab.py
-├── models/
-│   ├── staging/
-│   ├── marts/
-│   └── schema.yml
-├── assets/
-│   └── screenshots/
+│       ├── 5_Ecommerce_Analytics_Lab.py
+│       ├── 6_Document_Standards_Cleanup_Lab.py
+│       └── 7_Scheduled_Data_Automation_Lab.py
+│
+├── docs/
+│   └── production_automation_setup.md
+│
+├── logs/
+│   └── .gitkeep
+│
+├── scripts/
+│   ├── health_check.py
+│   ├── install_clean0ps_cron.sh
+│   └── view_logs.py
+│
+├── tests/
+│   ├── test_clean0ps_core.py
+│   ├── test_health_compile.py
+│   └── test_production_automation.py
+│
+├── clean0ps_core.py
+├── clean0ps_ui.py
 ├── requirements.txt
+├── .streamlit/
+│   └── config.toml
+├── .env.example
+├── .gitignore
 └── README.md
 ```
 
-## How to Run Locally
+---
 
-Clone the repository and install dependencies.
+## How to Run the App
+
+Clone the project and move into the project folder:
 
 ```bash
-python -m venv venv
+cd business-analytics-toolkit
+```
+
+Create and activate a virtual environment:
+
+```bash
+python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
-python -m streamlit run dashboard/app.py
 ```
 
-If using `.venv`:
+Install dependencies:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python -m streamlit run dashboard/app.py
+python3 -m pip install -r requirements.txt
 ```
 
-## Example Use Case
+Run the Streamlit app:
 
-A client provides messy e-commerce exports:
+```bash
+python3 -m streamlit run dashboard/app.py --server.port 8503
+```
 
-* `orders.csv`
-* `order_items.csv`
-* `customers.csv`
-* `products.csv`
-* `ad_spend.csv`
-* `web_sessions.csv`
-* `subscriptions.csv`
+Open the app in your browser:
 
-Clean0ps can:
+```text
+http://localhost:8503
+```
 
-1. Load the files
-2. Assign each file to a source table
-3. Map messy columns to standard reporting fields
-4. Build fact and dimension tables
-5. Run validation tests
-6. Calculate KPIs
-7. Display dashboard views
-8. Export modeled tables
-9. Export a client-ready analytics report
+---
 
-## Portfolio Value
+## Running the Health Check
 
-This project demonstrates practical skills in:
+Clean0ps includes a health check script that compiles key files and runs tests.
 
-* Data cleaning
-* Data validation
-* Data profiling
-* Dashboard development
-* E-commerce analytics
-* KPI design
-* SQL modeling
-* Star schema design
-* Fact and dimension modeling
-* Client-ready reporting
-* Analytics engineering concepts
-* Business intelligence workflows
+```bash
+python3 scripts/health_check.py
+```
 
-## Future Improvements
+A successful check should show that all compile checks and tests passed.
+
+---
+
+## Running Local API Automation
+
+The local automation workflow uses a configurable JSON file.
+
+Run the demo automation:
+
+```bash
+python3 -m automation.run_daily --config automation/configs/config.example.json
+```
+
+Outputs are saved to:
+
+```text
+automation/outputs/
+```
+
+Each run generates a folder containing:
+
+* `cleaned_output.csv`
+* `validation_issues.csv`
+* `run_summary.csv`
+* `source_errors.csv`
+* `automation_report.xlsx`
+
+---
+
+## Scheduling the Automation
+
+Clean0ps includes a cron installer script for daily local automation.
+
+```bash
+bash scripts/install_clean0ps_cron.sh
+```
+
+The scheduled workflow can be inspected with:
+
+```bash
+crontab -l
+```
+
+Cron logs are written to:
+
+```text
+logs/automation_cron.log
+```
+
+---
+
+## Privacy Notice
+
+Clean0ps is designed to process files during the current app session. Uploaded files are not permanently stored by default.
+
+Users should avoid uploading sensitive data unless they trust the environment where the app is running.
+
+Generated local outputs, logs, and temporary files are excluded from Git tracking through `.gitignore`.
+
+---
+
+## Production Readiness
+
+Clean0ps includes several production-oriented features:
+
+* Shared backend utilities
+* Shared UI components
+* Health check script
+* Unit tests
+* Local error logging
+* Local event logging
+* Privacy notice
+* Reset workflow buttons
+* Configurable automation settings
+* Local output folders
+* Lock file for scheduled automation
+* Git hygiene through `.gitignore`
+* Example environment file
+* Streamlit theme configuration
+
+Current production readiness focus:
+
+| Area                                | Status                              |
+| ----------------------------------- | ----------------------------------- |
+| CSV / Excel cleaning                | Ready                               |
+| Data quality validation             | Ready                               |
+| Inventory analysis                  | Ready                               |
+| E-commerce analytics modeling       | Working V1                          |
+| PDF / LLM extraction cleanup        | Working V1                          |
+| API to local CSV / Excel automation | Production-ready V1 after test run  |
+| Scheduled local workflow            | Production-ready V1 after cron test |
+| Google Sheets automation            | Paused                              |
+| Enterprise SaaS platform            | Future roadmap                      |
+
+---
+
+## Testing
+
+Run all tests:
+
+```bash
+python3 -m pytest -q
+```
+
+Run the full health check:
+
+```bash
+python3 scripts/health_check.py
+```
+
+Tests currently cover:
+
+* Column cleaning
+* Duplicate handling
+* Missing value detection
+* Excel export generation
+* ZIP export generation
+* Quality score calculation
+* Automation config validation
+* API response extraction
+* Required field validation
+* Application file compilation
+
+---
+
+## Example Use Cases
+
+Clean0ps can support jobs such as:
+
+* Clean this messy CSV file
+* Remove duplicates from a CRM export
+* Format an Excel file for client delivery
+* Audit a dataset for missing values
+* Prepare product inventory for reporting
+* Analyze e-commerce orders and customers
+* Validate LLM-extracted PDF data
+* Create database-ready records from standards documents
+* Pull structured API data and generate daily local outputs
+* Build repeatable data cleaning workflows
+
+---
+
+## What I Learned Building This
+
+This project strengthened my experience with:
+
+* Python application structure
+* Streamlit dashboards
+* Pandas data cleaning
+* CSV and Excel processing
+* Data validation logic
+* File export workflows
+* Error handling
+* Logging
+* Unit testing
+* Automation scripts
+* Config-driven workflows
+* Analytics modeling
+* Business-facing reporting
+* Product thinking
+
+It also helped me think about how real users interact with data tools: they need clear workflows, reliable outputs, understandable errors, and reports they can actually send to someone else.
+
+---
+
+## Future Roadmap
 
 Planned improvements include:
 
-* Add real dbt project configuration
-* Add DuckDB or PostgreSQL execution for local SQL models
-* Add BigQuery deployment notes
-* Add more advanced dashboard filters
-* Add saved project sessions
-* Add user authentication
-* Add automated report generation
-* Add scheduled data refresh workflows
-* Add Looker Studio export examples
-* Add more sample datasets
+* Google Sheets integration
+* More API connector templates
+* Saved project sessions
+* User authentication
+* Cloud deployment
+* Background job processing
+* Role-based workspaces
+* More advanced data profiling
+* Larger-file performance improvements
+* Better table editing
+* More downloadable case studies
+* Screenshot-based portfolio documentation
 
-## Status
+---
 
-Clean0ps is currently a portfolio-ready MVP focused on data cleaning, validation, and e-commerce analytics workflows.
+## Project Positioning
 
-It is not yet a full SaaS product, but it demonstrates a realistic analytics workflow from messy raw files to clean reporting outputs.
-s-analytics-toolkit
+Clean0ps is a practical data operations project. It combines data cleaning, validation, analytics, automation, and reporting into one workflow-focused application.
+
+It demonstrates the ability to think beyond a single script and build a tool that helps users complete real data tasks from start to finish.
